@@ -17,6 +17,8 @@ public class Algorithms {
         return founded;
     }
 
+    //---------------------------------------------------------------------------------------------
+
     public static boolean bubbleSort(List<Person> list, long linearSearchTime) {
         long startSearch = System.currentTimeMillis();
 
@@ -34,6 +36,8 @@ public class Algorithms {
         }
         return true;
     }
+
+    //---------------------------------------------------------------------------------------------
 
     public static int jumpSearch(List<Person> directory, Person toFind) {
         int n = directory.size();
@@ -60,4 +64,69 @@ public class Algorithms {
         }
         return -1;
     }
+
+    //---------------------------------------------------------------------------------------------
+
+    // quicksort
+    public static void quickSort(List<Person> list) {
+        concreteQuickSort(list, 0, list.size() - 1);
+    }
+    private static void concreteQuickSort(List<Person> list, int low, int high) {
+        if (low < high) {
+            // pi is partitioning index
+            // now is at right place
+            int pi = partition(list, low, high);
+
+            // Separately sort elements before partition and after partition
+            concreteQuickSort(list, low, pi - 1);
+            concreteQuickSort(list, pi + 1, high);
+        }
+    }
+
+    private static void swap(List<Person> list, int i, int j) {
+        Person temp = list.get(i);
+        list.set(i, list.get(j));
+        list.set(j, temp);
+    }
+    private static int partition(List<Person> list, int low, int high) {
+        //pivot
+        Person pivot = list.get(high);
+
+        int i = (low - 1);
+
+        for (int j = low; j <= high - 1; j++) {
+            //if current smaller than pivot
+            if (list.get(j).compareTo(pivot) < 0) {
+                //increment index of smaller element
+                i++;
+                swap(list, i, j);
+
+            }
+        }
+        swap(list, i + 1, high);
+        return (i + 1);
+    }
+
+    //---------------------------------------------------------------------------------------------
+
+    public static int binarySearch(List<Person> list, Person wanted) {
+        return concreteBinarySearch(list, wanted, 0, list.size());
+    }
+    private static int concreteBinarySearch(List<Person> list, Person wanted,  int start, int end) {
+        if (end >= start) {
+            int half = (start + end) / 2;
+
+            if (list.get(half).compareTo(wanted) == 0) {
+                return half;
+            } else if (list.get(half).compareTo(wanted) > 0) {
+                //left
+                return concreteBinarySearch(list, wanted, start, half - 1);
+            } else if (list.get(half).compareTo(wanted) < 0) {
+                // right
+                return concreteBinarySearch(list, wanted, half + 1, end);
+            }
+        }
+        return -1;
+    }
+
 }

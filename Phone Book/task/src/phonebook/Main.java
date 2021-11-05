@@ -48,6 +48,26 @@ public class Main {
         System.out.println(bubbleSortDone ? "" : "STOPPED, moved to linear search");
         System.out.printf("Searching time: %s\n", timeToReadableForm(stopSearch - startSearch));
 
+
+        System.out.println("Start searching (quick sort + binary search)...");
+        long startQuickSort = System.currentTimeMillis();
+        Algorithms.quickSort(directoryList);
+        long stopQuickSort = System.currentTimeMillis();
+
+        startSearch = System.currentTimeMillis();
+        founded = 0;
+        for (Person toFind : toFindList) {
+            if (Algorithms.binarySearch(directoryList, toFind) != -1) {
+                founded++;
+            }
+        }
+        stopSearch = System.currentTimeMillis();
+
+        System.out.printf("Found %d / %d entries. Time taken: %s\n", founded, toFindList.size(),
+                timeToReadableForm(stopSearch - startQuickSort));
+        System.out.printf("Sorting time: %s\n", timeToReadableForm(stopQuickSort - startQuickSort));
+        System.out.printf("Searching time: %s\n", timeToReadableForm(stopSearch - startSearch));
+
     }
 
 
