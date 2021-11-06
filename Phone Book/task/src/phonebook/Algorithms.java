@@ -1,6 +1,7 @@
 package phonebook;
 
 import java.util.List;
+import java.util.Objects;
 
 public class Algorithms {
 
@@ -127,6 +128,26 @@ public class Algorithms {
             }
         }
         return -1;
+    }
+
+    public static Person[] generateAndFillHasTable(List<Person> list) {
+        int hashTableSize = (int) (list.size() + list.size() * 0.5);
+        Person[] hashtable = new Person[hashTableSize];
+
+        for (Person person : list) {
+            int hashCode = Math.abs(person.getName().hashCode() % hashTableSize);
+            hashtable[hashCode] = person;
+        }
+        return hashtable;
+    }
+
+    public static Person searchingPersonHashTable(Person[] hashTable, Person wanted) {
+        int hashCode = Math.abs(wanted.getName().hashCode() % hashTable.length);
+        if (Objects.nonNull(hashTable[hashCode])) {
+            return hashTable[hashCode];
+        } else {
+            return null;
+        }
     }
 
 }

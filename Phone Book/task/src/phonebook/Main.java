@@ -6,6 +6,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class Main {
     private static final String directoryPath = "C:\\Users\\Hubert\\Phone Book\\directory.txt";
@@ -49,6 +50,7 @@ public class Main {
         System.out.printf("Searching time: %s\n", timeToReadableForm(stopSearch - startSearch));
 
 
+
         System.out.println("Start searching (quick sort + binary search)...");
         long startQuickSort = System.currentTimeMillis();
         Algorithms.quickSort(directoryList);
@@ -68,6 +70,26 @@ public class Main {
         System.out.printf("Sorting time: %s\n", timeToReadableForm(stopQuickSort - startQuickSort));
         System.out.printf("Searching time: %s\n", timeToReadableForm(stopSearch - startSearch));
 
+
+
+        System.out.println("Start searching (hash table)...");
+        long startCreatingHashTable = System.currentTimeMillis();
+        Person[] hashtable = Algorithms.generateAndFillHasTable(directoryList);
+        long stopCreatingHashTable = System.currentTimeMillis();
+
+        founded = 0;
+        startSearch = System.currentTimeMillis();
+        for (Person toFind : toFindList) {
+            if (Objects.nonNull(Algorithms.searchingPersonHashTable(hashtable, toFind))) {
+                founded++;
+            }
+        }
+        stopSearch = System.currentTimeMillis();
+
+        System.out.printf("Found %d / %d entries. Time taken: %s\n", founded, toFindList.size(),
+                timeToReadableForm(stopSearch - startCreatingHashTable));
+        System.out.printf("Creating time: %s\n", timeToReadableForm(stopCreatingHashTable - startCreatingHashTable));
+        System.out.printf("Searching time: %s\n", timeToReadableForm(stopSearch - startSearch));
     }
 
 
